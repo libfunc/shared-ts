@@ -15,6 +15,7 @@ export const sch = {
   str: { type: Typ.Str } as r.StrType,
   dt: { type: Typ.Datetime } as r.DatetimeType,
   ts: { type: Typ.Timestamp } as r.TimestampType,
+  decimal: { type: Typ.Decimal } as r.DecimalType,
   fuid: { type: Typ.Fuid } as r.FuidType,
   lowid: { type: Typ.LowId } as r.LowIdType,
   bytes: { type: Typ.Bytes } as r.BytesType,

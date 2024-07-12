@@ -110,6 +110,36 @@ export const fromSlice = (
       cursor.value += 8;
       return date;
     }
+    case Typ.Decimal: {
+      // * Bytes 1-4: flags
+      // * Bytes 5-8: lo portion of `m`
+      // * Bytes 9-12: mid portion of `m`
+      // * Bytes 13-16: high portion of `m`
+      //   Bits 0-15: unused
+      //   Bits 16-23: Contains "e", a value between 0-28 that indicates the scale
+      //   Bits 24-30: unused
+      //   Bit 31: the sign of the Decimal value, 0 meaning positive and 1 meaning negative.
+      cursor.value += 2;
+      const scale = getByte(view, cursor);
+      const neg = getByte(view, cursor) !== 0;
+      const lo_mid = view.getBigUint64(cursor.value, true);
+      cursor.value += 8;
+      const high = view.getUint32(cursor.value, true);
+      cursor.value += 4;
+      let decimal = (neg ? '-' : '') + lo_mid.toString();
+      if (scale !== 0) {
+        const len = decimal.length;
+        const intPart = len - scale;
+        const high = decimal.slice(0, intPart);
+        const low = decimal.slice(intPart);
+        decimal = `${high}.${low}`;
+      }
+      if (high !== 0) {
+        return `${high}<${decimal}`;
+      } else {
+        return decimal;
+      }
+    }
     case Typ.Fuid: {
       // 5 bytes timestamp + 1 byte shardId + 2 bytes random
       const ts = bytesView(view, cursor, 5);
@@ -118,8 +148,8 @@ export const fromSlice = (
       return `${ts}-${shardId}-${rand}`;
     }
     case Typ.LowId: {
-      // 5 bytes timestamp + 1 byte shardId + 2 bytes random
-      const ts = bytesView(view, cursor, 5);
+      // 4 bytes timestamp + 1 byte shardId + 2 bytes random
+      const ts = bytesView(view, cursor, 4);
       const shardId = getByte(view, cursor);
       const rand = bytesView(view, cursor, 2);
       return `${ts}-${shardId}-${rand}`;
@@ -134,7 +164,7 @@ export const fromSlice = (
     }
     case Typ.Array: {
       const [len, child] = scheme.data;
-      const vec = [];
+      const vec = [] as unknown[];
       for (let index = 0; index < len; index++) {
         const item = fromSlice(view, child, cursor);
         vec.push(item);
@@ -143,7 +173,7 @@ export const fromSlice = (
     }
     case Typ.Vec: {
       const len = getLen(view, cursor);
-      const vec = [];
+      const vec = [] as unknown[];
       for (let index = 0; index < len; index++) {
         const item = fromSlice(view, scheme.data, cursor);
         vec.push(item);

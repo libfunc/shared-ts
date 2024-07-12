@@ -138,6 +138,10 @@ export interface TimestampType {
   type: Typ.Timestamp;
 }
 
+export interface DecimalType {
+  type: Typ.Decimal;
+}
+
 export interface FuidType {
   type: Typ.Fuid;
 }
@@ -172,6 +176,7 @@ export type Scheme =
   | StrType
   | DatetimeType
   | TimestampType
+  | DecimalType
   | FuidType
   | LowIdType
   | BytesType
