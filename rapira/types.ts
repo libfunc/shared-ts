@@ -142,6 +142,10 @@ export interface FuidType {
   type: Typ.Fuid;
 }
 
+export interface LowIdType {
+  type: Typ.LowId;
+}
+
 export interface JsonType {
   type: Typ.Json;
 }
@@ -152,7 +156,7 @@ export interface JsonBytesType {
 
 export interface CustomType {
   type: Typ.Custom;
-  data: string;
+  data: [string, Scheme[]];
 }
 
 export type Scheme =
@@ -169,6 +173,7 @@ export type Scheme =
   | DatetimeType
   | TimestampType
   | FuidType
+  | LowIdType
   | BytesType
   | ArrayBytesType
   | ArrayType

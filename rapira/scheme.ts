@@ -1,5 +1,5 @@
-import type * as r from "./types";
 import { FieldType, Typ } from "./ty";
+import type * as r from "./types";
 import type { Scheme } from "./types";
 
 export const sch = {
@@ -15,7 +15,8 @@ export const sch = {
   str: { type: Typ.Str } as r.StrType,
   dt: { type: Typ.Datetime } as r.DatetimeType,
   ts: { type: Typ.Timestamp } as r.TimestampType,
-  id: { type: Typ.Fuid } as r.FuidType,
+  fuid: { type: Typ.Fuid } as r.FuidType,
+  lowid: { type: Typ.LowId } as r.LowIdType,
   bytes: { type: Typ.Bytes } as r.BytesType,
   void: { type: Typ.Void } as r.VoidType,
   json: { type: Typ.Json } as r.JsonType,
@@ -101,8 +102,8 @@ export const sch = {
       },
     };
   },
-  custom(name: string): r.CustomType {
-    return { type: Typ.Custom, data: name };
+  custom(name: string, types: Scheme[]): r.CustomType {
+    return { type: Typ.Custom, data: [name, types] };
   },
   // tuple OR unnamed struct with unnamed fields
   tuple(fields: Scheme[]): r.StructType {

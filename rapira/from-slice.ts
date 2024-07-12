@@ -39,7 +39,7 @@ export const bytesView = (
   return arr.map((n) => n.toString(16).padStart(2, "0")).join("");
 };
 
-type Impl<T = unknown> = (view: DataView, cursor: Cursor) => T;
+type Impl<T = unknown> = (view: DataView, cursor: Cursor, types?: Scheme[]) => T;
 type CustomImpls = Record<string, Impl>;
 
 export const fromSlice = (
@@ -111,6 +111,13 @@ export const fromSlice = (
       return date;
     }
     case Typ.Fuid: {
+      // 5 bytes timestamp + 1 byte shardId + 2 bytes random
+      const ts = bytesView(view, cursor, 5);
+      const shardId = getByte(view, cursor);
+      const rand = bytesView(view, cursor, 2);
+      return `${ts}-${shardId}-${rand}`;
+    }
+    case Typ.LowId: {
       // 5 bytes timestamp + 1 byte shardId + 2 bytes random
       const ts = bytesView(view, cursor, 5);
       const shardId = getByte(view, cursor);
@@ -197,7 +204,8 @@ export const fromSlice = (
       return JSON.parse(str);
     }
     case Typ.Custom: {
-      return customImpls[scheme.data](view, cursor);
+      let [name, types] = scheme.data;
+      return customImpls[name](view, cursor, types);
     }
     default:
       throw Error(`unhandled type: ${JSON.stringify(scheme)}`);

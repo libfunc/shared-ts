@@ -12,6 +12,7 @@ export const enum Typ {
   Datetime = "Datetime",
   Timestamp = "Timestamp",
   Fuid = "Fuid",
+  LowId = "LowId",
   Bytes = "Bytes",
   ArrayBytes = "ArrayBytes",
   Array = "Array",
