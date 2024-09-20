@@ -1,4 +1,4 @@
-export const enum Typ {
+export enum Typ {
   Bool = "Bool",
   U8 = "U8",
   U16 = "U16",
@@ -29,12 +29,12 @@ export const enum Typ {
   // Tuple = "Tuple",
 }
 
-export const enum FieldType {
+export enum FieldType {
   Named = "Named",
   Unnamed = "Unnamed",
 }
 
-export const enum KeyVariant {
+export enum KeyVariant {
   U8 = "U8",
   U32 = "U32",
   Array = "Array",

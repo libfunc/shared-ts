@@ -5,7 +5,7 @@ export interface Uid<E = RecordStatus> {
   status: E;
 }
 
-export const enum RecordStatus {
+export enum RecordStatus {
   Active = "Active",
   Disabled = "Disabled",
   Deleted = "Deleted",

@@ -1,6 +1,6 @@
 import { apiUrl, isTesting } from "./env";
 
-export const URI = apiUrl + "/api/";
+export const URI = `${apiUrl}/api/`;
 export const CLIENT_ERROR = 400;
 
 interface UserMessage {
@@ -32,7 +32,7 @@ export class EntityError extends Error {
 
 export type ParamsType = Record<string, string>;
 
-export const enum Method {
+export enum Method {
   Get = "GET",
   Post = "POST",
   Put = "PUT",
@@ -43,7 +43,7 @@ export const enum Method {
 export interface RequestParams {
   path: string;
   params?: ParamsType;
-  body?: any;
+  body?: unknown;
   method: Method;
   requiredSignin?: closure;
   metricSend?: (url: string, ms: number) => void;

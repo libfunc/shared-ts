@@ -39,7 +39,11 @@ export const bytesView = (
   return arr.map((n) => n.toString(16).padStart(2, "0")).join("");
 };
 
-type Impl<T = unknown> = (view: DataView, cursor: Cursor, types?: Scheme[]) => T;
+type Impl<T = unknown> = (
+  view: DataView,
+  cursor: Cursor,
+  types?: Scheme[],
+) => T;
 type CustomImpls = Record<string, Impl>;
 
 export const fromSlice = (
@@ -126,7 +130,7 @@ export const fromSlice = (
       cursor.value += 8;
       const high = view.getUint32(cursor.value, true);
       cursor.value += 4;
-      let decimal = (neg ? '-' : '') + lo_mid.toString();
+      let decimal = (neg ? "-" : "") + lo_mid.toString();
       if (scale !== 0) {
         const len = decimal.length;
         const intPart = len - scale;
@@ -136,9 +140,8 @@ export const fromSlice = (
       }
       if (high !== 0) {
         return `${high}<${decimal}`;
-      } else {
-        return decimal;
       }
+      return decimal;
     }
     case Typ.Fuid: {
       // 5 bytes timestamp + 1 byte shardId + 2 bytes random
@@ -185,9 +188,8 @@ export const fromSlice = (
       if (exist) {
         const val = fromSlice(view, scheme.data, cursor);
         return val;
-      } else {
-        return null;
       }
+      return null;
     }
     case Typ.SimpleEnum: {
       const variantVal = getByte(view, cursor);
@@ -234,7 +236,7 @@ export const fromSlice = (
       return JSON.parse(str);
     }
     case Typ.Custom: {
-      let [name, types] = scheme.data;
+      const [name, types] = scheme.data;
       return customImpls[name](view, cursor, types);
     }
     default:

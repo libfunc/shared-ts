@@ -17,4 +17,4 @@ export const apiUrl: string = import.meta.env.VITE_API_URL ?? "";
 
 export const orientation = screen.orientation.type;
 
-export const APP_VERSION: string = import.meta.env.VITE_APP_VERSION || '0.0.0';
+export const APP_VERSION: string = import.meta.env.VITE_APP_VERSION || "0.0.0";

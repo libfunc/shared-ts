@@ -11,9 +11,9 @@ import type {
 import { KeySchemeType } from "./types";
 
 export { sch } from "./scheme";
-export type { NamedFields, StructType, KeyScheme, Scheme } from "./types";
+export { FieldType, Typ } from "./ty";
 export { KeySchemeType } from "./types";
-export { Typ, FieldType } from "./ty";
+export type { KeyScheme, NamedFields, Scheme, StructType } from "./types";
 
 // deserialize single value
 export const valDeser = (view: DataView, scheme: Scheme) => {
@@ -152,7 +152,7 @@ export const flatten = (scheme: StructType, prefix = ""): NameAndType[] => {
       scheme.type === Typ.Struct &&
       scheme.data.fields.type === FieldType.Named
     ) {
-      return flatten(scheme, prefix + name + ".");
+      return flatten(scheme, `${prefix}${name}.`);
     }
     return [[prefix + name, scheme]];
   });

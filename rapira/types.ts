@@ -1,6 +1,6 @@
 import type { FieldType, Typ, TypedKeyType } from "./ty";
 
-export const enum KeySchemeType {
+export enum KeySchemeType {
   Typed = "Typed",
   Bytes = "Bytes",
 }
