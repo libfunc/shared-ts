@@ -3,10 +3,6 @@ declare interface EnumVariant<T, D = undefined> {
   data: D;
 }
 
-declare type Option<T> = T | null;
-
-declare type closure = () => void;
-
 // interface RequestInit {
 //   priority?: "high" | "low";
 // }
