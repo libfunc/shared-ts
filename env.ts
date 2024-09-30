@@ -18,3 +18,6 @@ export const apiUrl: string = import.meta.env.VITE_API_URL ?? "";
 export const orientation = screen.orientation.type;
 
 export const APP_VERSION: string = import.meta.env.VITE_APP_VERSION || "0.0.0";
+export const APP_TITLE: string = import.meta.env.VITE_APP_TITLE;
+// for Sentry
+export const APP_HOST: string = import.meta.env.VITE_APP_HOST;
